@@ -32,7 +32,6 @@ public class AuthStudentServiceImpl implements AuthStudentService {
 
     private final StudentRepository studentRepositoryImpl;
 
-    // TODO: Change the list format to return the field and its cause
     @Override
     public void signup(final StudentRegister studentRegisterRequest) throws RegisterException {
         final String methodName = "signup";

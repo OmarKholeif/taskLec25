@@ -12,8 +12,7 @@ public record StudentRegister(
         String secondName,
 //        @Min(value = 18, message = "{validation.age.min}")
 //        @Max(value = 25, message = "{validation.age.max}")
-        // TODO: I need to add the values of min and max here
-        @Age
+        @Age(min = 15, max = 25)
         int age,
         @Email(message = "{validation.email.pattern}")
         String email,
