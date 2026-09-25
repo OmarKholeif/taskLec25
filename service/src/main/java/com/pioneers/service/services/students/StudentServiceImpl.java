@@ -75,6 +75,9 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public void update(final UUID id, final StudentUpdate studentUpdateRequest) throws StudentException {
+
+        studentUpdateRequest.validate();
+
         final Optional<Student> optionalFoundStudent = studentRepository.findById(id);
 
         if (optionalFoundStudent.isEmpty()) {

@@ -20,10 +20,9 @@ public class AuthController {
 
     private final AuthStudentService authStudentServiceImpl;
 
-    // TODO: Edit the signup flow to break the flow when the first request validation error happen
     @PostMapping("signup")
     public String registerStudentApi(
-            @RequestBody @Valid final StudentRegister studentRegisterRequest
+            @RequestBody final StudentRegister studentRegisterRequest
     ) {
         final String methodName = "registerStudentApi";
         log.info("{}, Implementing Registration flow for [{}]", methodName, studentRegisterRequest.email());

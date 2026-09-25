@@ -9,8 +9,7 @@ import com.pioneers.service.models.entities.Student;
 import com.pioneers.service.repositories.StudentRepository;
 
 import com.pioneers.service.utils.mappers.StudentMapper;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Email;
+import com.pioneers.service.utils.validators.ValidationRulesService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -33,8 +32,11 @@ public class AuthStudentServiceImpl implements AuthStudentService {
     private final StudentRepository studentRepositoryImpl;
 
     @Override
-    public void signup(final StudentRegister studentRegisterRequest) throws RegisterException {
+    public void signup(final StudentRegister studentRegisterRequest)
+            throws RegisterException, ValidationRulesService.ValidationException {
         final String methodName = "signup";
+
+        studentRegisterRequest.validate();
 
         final Optional<Student> optionalStudent = studentRepositoryImpl.findByEmail(studentRegisterRequest.email());
 
@@ -74,6 +76,9 @@ public class AuthStudentServiceImpl implements AuthStudentService {
 
     @Override
     public void login(final StudentLogin studentLoginRequest) throws LoginException, CredentialsException {
+
+        studentLoginRequest.validate();
+
         final Student foundStudent = studentRepositoryImpl.findByEmail(studentLoginRequest.email())
                 .orElseThrow(() ->
                         new LoginException("Student with email: " + studentLoginRequest.email() + " not registered"));

@@ -2,6 +2,7 @@ package com.pioneers.service.errors.handlers;
 
 import com.pioneers.service.errors.models.ErrorResponse;
 import com.pioneers.service.errors.models.GenericResponse;
+import com.pioneers.service.utils.validators.ValidationRulesService;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.ElementKind;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static com.pioneers.service.utils.times.TimeHelper.currentTimestamp;
@@ -21,6 +23,25 @@ import static com.pioneers.service.utils.times.TimeHelper.currentTimestamp;
 @Slf4j
 @RestControllerAdvice
 public class ValidationExceptionHandler {
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(exception = ValidationRulesService.ValidationException.class)
+    public GenericResponse<List<ErrorResponse>> handleValidationException(
+            final ValidationRulesService.ValidationException e) {
+
+        final List<ErrorResponse> errorResponseList = e.getErrors()
+                .entrySet()
+                .stream()
+                .map(ValidationExceptionHandler::toErrorResponse)
+                .toList();
+
+        return new GenericResponse<>(
+                ValidationRulesService.ValidationException.CODE, currentTimestamp(), errorResponseList);
+    }
+
+    private static ErrorResponse toErrorResponse(final Map.Entry<String, String> entry) {
+        return new ErrorResponse(entry.getKey(), entry.getValue());
+    }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(exception = MethodArgumentNotValidException.class)
