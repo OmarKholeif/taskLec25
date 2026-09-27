@@ -10,7 +10,7 @@ public record StudentLogin(
 //                message = "Password doesn't meed the criteria")
         String password) {
 
-    public void validate() throws ValidationRulesService.ValidationException {
+    public void validate() throws ValidationRulesService.RuleException {
         ValidationRulesService.validate(ValidationRules.EMAIL, email);
         ValidationRulesService.validate(ValidationRules.PASSWORD, password);
     }

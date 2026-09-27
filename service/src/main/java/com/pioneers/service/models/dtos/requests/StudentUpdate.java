@@ -5,7 +5,7 @@ import com.pioneers.service.utils.validators.ValidationRulesService;
 
 public record StudentUpdate(String firstName, String secondName, int age, String email, String password, float score) {
 
-    public void validate() throws ValidationRulesService.ValidationException {
+    public void validate() throws ValidationRulesService.RuleException {
         ValidationRulesService.validate(ValidationRules.FIRST_NAME, firstName);
         ValidationRulesService.validate(ValidationRules.SECOND_NAME, secondName);
         ValidationRulesService.validate(ValidationRules.AGE, String.valueOf(age));

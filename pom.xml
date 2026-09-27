@@ -20,6 +20,7 @@
     <modules>
         <module>data-structures</module>
         <module>design-patterns</module>
+        <module>functional-programming</module>
         <module>rest</module>
         <module>service</module>
     </modules>

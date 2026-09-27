@@ -25,6 +25,16 @@ import static com.pioneers.service.utils.times.TimeHelper.currentTimestamp;
 public class ValidationExceptionHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(exception = ValidationRulesService.RuleException.class)
+    public GenericResponse<ErrorResponse> handleRuleException(final ValidationRulesService.RuleException e) {
+
+        final ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), e.getDescription());
+
+        return new GenericResponse<>(
+                ValidationRulesService.ValidationException.CODE, currentTimestamp(), errorResponse);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(exception = ValidationRulesService.ValidationException.class)
     public GenericResponse<List<ErrorResponse>> handleValidationException(
             final ValidationRulesService.ValidationException e) {
