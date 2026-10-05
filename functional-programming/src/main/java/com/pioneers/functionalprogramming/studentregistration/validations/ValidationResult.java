@@ -9,14 +9,14 @@ public class ValidationResult {
     private final boolean valid;
     private final StudentRegister studentRegister;
 
-    public void onSuccess(StudentExecutor executor){
-        if(valid){
+    public void onSuccess(StudentExecutor executor) {
+        if (valid) {
             executor.execute(studentRegister);
         }
     }
 
-    public void onFailure(Runnable executor){
-        if(!valid){
+    public void onFailure(Runnable executor) {
+        if (!valid) {
             executor.run();
         }
     }
